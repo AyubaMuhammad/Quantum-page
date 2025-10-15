@@ -185,43 +185,109 @@
             align-items: center;
         }
         
-        .logo-placeholder {
-            width: 180px;
+        .logo-image {
             height: 50px;
-            background-color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 4px;
-            font-weight: bold;
-            color: black;
-            font-size: 1.5rem;
+            width: auto;
+            max-width: 180px;
         }
         
-        nav ul {
+        /* Desktop Navigation */
+        .desktop-nav {
+            display: flex;
+        }
+        
+        .desktop-nav ul {
             display: flex;
             list-style: none;
         }
         
-        nav ul li {
+        .desktop-nav ul li {
             margin-left: 30px;
         }
         
-        nav ul li a {
+        .desktop-nav ul li a {
             color: var(--text-white);
             text-decoration: none;
             font-weight: 500;
             transition: color 0.3s ease;
         }
         
-        nav ul li a:hover {
+        .desktop-nav ul li a:hover {
             color: var(--accent-cyan);
         }
         
+        /* Mobile Navigation */
         .mobile-menu {
             display: none;
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 1001;
+        }
+        
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 300px;
+            height: 100vh;
+            background: var(--dark-bg);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+            transition: right 0.3s ease;
+            z-index: 1002;
+            padding: 80px 30px 30px;
+        }
+        
+        .sidebar.active {
+            right: 0;
+        }
+        
+        .sidebar-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-white);
+        }
+        
+        .sidebar-nav ul {
+            list-style: none;
+        }
+        
+        .sidebar-nav ul li {
+            margin-bottom: 20px;
+        }
+        
+        .sidebar-nav ul li a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 10px 0;
+        }
+        
+        .sidebar-nav ul li a:hover {
+            color: var(--accent-cyan);
+        }
+        
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .overlay.active {
+            opacity: 1;
+            visibility: visible;
         }
         
         /* Page Header */
@@ -520,22 +586,21 @@
         }
         
         @media (max-width: 768px) {
+            .desktop-nav {
+                display: none;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
+            
             .header-container {
-                flex-direction: column;
-                text-align: center;
+                flex-direction: row;
+                text-align: left;
             }
             
             .logo {
-                margin-bottom: 20px;
-            }
-            
-            nav ul {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            nav ul li {
-                margin-left: 0;
+                margin-bottom: 0;
             }
             
             .contact-form-container {
@@ -567,12 +632,10 @@
             .contact, .offices, .faq, .cta {
                 padding: 70px 0;
             }
-        }
-
-               .logo-image {
-            height: 50px;
-            width: auto;
-            max-width: 1000px;
+            
+            .sidebar {
+                width: 280px;
+            }
         }
     </style>
 </head>
@@ -590,7 +653,9 @@
                     <img src="Quantum.png" alt="Quantum Logo" class="logo-image">
                 </a>
             </div>
-            <nav>
+            
+            <!-- Desktop Navigation -->
+            <nav class="desktop-nav">
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li><a href="features.html">Features</a></li>
@@ -598,11 +663,31 @@
                     <li><a href="contact.html" style="color: var(--accent-cyan);">Contact</a></li>
                 </ul>
             </nav>
+            
+            <!-- Mobile Menu Button -->
             <div class="mobile-menu">
                 <i class="fas fa-bars"></i>
             </div>
         </div>
     </header>
+
+    <!-- Mobile Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-close">
+            <i class="fas fa-times"></i>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="features.html">Features</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html" style="color: var(--accent-cyan);">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Overlay -->
+    <div class="overlay"></div>
 
     <!-- Page Header -->
     <section class="page-header">
@@ -887,28 +972,38 @@
     </footer>
 
     <script>
-        // Simple script for smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+        // Mobile sidebar functionality
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarClose = document.querySelector('.sidebar-close');
+        const overlay = document.querySelector('.overlay');
+        
+        mobileMenu.addEventListener('click', () => {
+            sidebar.classList.add('active');
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
         });
         
-        // Mobile menu toggle (basic implementation)
-        document.querySelector('.mobile-menu').addEventListener('click', function() {
-            const nav = document.querySelector('nav ul');
-            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        sidebarClose.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Close sidebar when clicking on links
+        const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
         });
         
         // FAQ Accordion
