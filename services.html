@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services | Quantum - Reliable, Scalable Technology Solutions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+            --primary-bg: #000000;
+            --dark-bg: #121212;
+            --card-bg: #1a1a1a;
+            --accent-blue: #0066FF;
+            --accent-cyan: #00FFC4;
+            --accent-purple: #8A2BE2;
+            --text-white: #FFFFFF;
+            --text-gray: #CCCCCC;
+            --text-light: #F5F5F5;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(to right, var(--text-white), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-gray);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-blue);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: var(--accent-blue);
+            color: var(--text-white);
+        }
+        
+        .btn-primary:hover {
+            background: #0052cc;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 102, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-white);
+            border: 2px solid var(--accent-cyan);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(0, 255, 196, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: rgba(0, 0, 0, 0.9);
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            padding: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-placeholder {
+            width: 180px;
+            height: 50px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            font-weight: bold;
+            color: black;
+            font-size: 1.5rem;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 30px;
+        }
+        
+        nav ul li a {
+            color: var(--text-white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--accent-cyan);
+        }
+        
+        .mobile-menu {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Page Header */
+        .page-header {
+            padding: 180px 0 80px;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, #0A0F2B 100%);
+            text-align: center;
+        }
+        
+        .page-header p {
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.2rem;
+        }
+        
+        /* Services Overview */
+        .services-overview {
+            padding: 100px 0;
+            background-color: var(--dark-bg);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: var(--card-bg);
+            padding: 40px 30px;
+            border-radius: 8px;
+            transition: all 0.5s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            border-top: 4px solid var(--accent-blue);
+        }
+        
+        .service-card.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 196, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .service-card:hover::before {
+            left: 100%;
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            transition: all 0.5s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.2);
+        }
+        
+        .service-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .service-features {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .service-features li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .service-features li:before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+        }
+        
+        /* Detailed Services */
+        .detailed-services {
+            padding: 100px 0;
+        }
+        
+        .service-detail {
+            margin-bottom: 100px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+        
+        .service-detail.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .service-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .service-icon-large {
+            font-size: 4rem;
+            color: var(--accent-blue);
+            margin-right: 30px;
+        }
+        
+        .service-body {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 50px;
+            align-items: start;
+        }
+        
+        .service-visual {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
+            border-radius: 10px;
+            padding: 30px;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgyNTUsIDI1NSwgMjU1LCAwLjA1KSIvPjwvcGF0dGVybj48L2RlZnM+PHJlY3QgZmlsbD0idXJsKCNwYXR0ZXJuKSIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIvPjwvc3ZnPg==');
+        }
+        
+        .visual-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .visual-features {
+            list-style: none;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .visual-features li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .visual-features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        /* Process Section */
+        .process {
+            padding: 100px 0;
+            background: linear-gradient(135deg, #0A0F2B 0%, var(--primary-bg) 100%);
+        }
+        
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin-top: 50px;
+        }
+        
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-blue);
+            z-index: 1;
+        }
+        
+        .process-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            padding: 0 15px;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        .step-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        /* CTA Section */
+        .cta {
+            padding: 100px 0;
+            background-color: var(--dark-bg);
+            text-align: center;
+        }
+        
+        .cta h2 {
+            margin-bottom: 30px;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            padding: 70px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-column h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: var(--accent-cyan);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            
+            h2 {
+                font-size: 2rem;
+            }
+            
+            .service-body {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 20px;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul li {
+                margin-left: 0;
+            }
+            
+            .service-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .service-icon-large {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+            
+            .page-header {
+                padding: 150px 0 60px;
+            }
+            
+            .services-overview, .detailed-services, .process, .cta {
+                padding: 70px 0;
+            }
+        }
+
+        .logo-image {
+            height: 50px;
+            width: auto;
+            max-width: 1000px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none;">
+                    <img src="Quantum.png" alt="Quantum Logo" class="logo-image">
+                </a>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="features.html">Features</a></li>
+                    <li><a href="services.html" style="color: var(--accent-cyan);">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Our Services</h1>
+            <p>Comprehensive technology solutions designed to empower your organization with reliable, scalable infrastructure and digital excellence.</p>
+        </div>
+    </section>
+
+    <!-- Services Overview -->
+    <section class="services-overview">
+        <div class="container">
+            <h2 class="section-title">Technology Solutions</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>Cloud Architecture</h3>
+                        <p>Design, migration, and optimization of cloud infrastructure for scalability, security, and cost-efficiency.</p>
+                        <ul class="service-features">
+                            <li>Multi-cloud strategy development</li>
+                            <li>Infrastructure as Code (IaC)</li>
+                            <li>Cost optimization & monitoring</li>
+                            <li>Disaster recovery planning</li>
+                        </ul>
+                        <a href="#cloud" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <h3>DevOps & CI/CD</h3>
+                        <p>Streamline development and deployment with automated pipelines and infrastructure management.</p>
+                        <ul class="service-features">
+                            <li>Continuous Integration/Deployment</li>
+                            <li>Containerization & orchestration</li>
+                            <li>Infrastructure automation</li>
+                            <li>Performance monitoring</li>
+                        </ul>
+                        <a href="#devops" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3>AI & Analytics</h3>
+                        <p>Harness the power of data with machine learning, predictive analytics, and business intelligence.</p>
+                        <ul class="service-features">
+                            <li>Machine learning implementation</li>
+                            <li>Data pipeline development</li>
+                            <li>Predictive analytics</li>
+                            <li>Business intelligence dashboards</li>
+                        </ul>
+                        <a href="#ai" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h3>Cyber Security</h3>
+                        <p>Protect your digital assets with comprehensive security solutions and proactive threat management.</p>
+                        <ul class="service-features">
+                            <li>Security assessment & auditing</li>
+                            <li>Threat detection & response</li>
+                            <li>Compliance management</li>
+                            <li>Security training & awareness</li>
+                        </ul>
+                        <a href="#security" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Digital Transformation</h3>
+                        <p>Modernize your business processes and customer experiences with cutting-edge digital solutions.</p>
+                        <ul class="service-features">
+                            <li>Digital strategy development</li>
+                            <li>Legacy system modernization</li>
+                            <li>Customer experience optimization</li>
+                            <li>Process automation</li>
+                        </ul>
+                        <a href="#digital" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-content">
+                        <div class="service-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>Managed Services</h3>
+                        <p>24/7 monitoring, maintenance, and support to ensure your technology operates at peak performance.</p>
+                        <ul class="service-features">
+                            <li>24/7 monitoring & alerting</li>
+                            <li>Proactive maintenance</li>
+                            <li>Performance optimization</li>
+                            <li>Expert technical support</li>
+                        </ul>
+                        <a href="#managed" class="btn btn-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Services -->
+    <section class="detailed-services">
+        <div class="container">
+            <h2 class="section-title">Service Details</h2>
+            
+            <div class="service-detail" id="cloud">
+                <div class="service-header">
+                    <div class="service-icon-large">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div>
+                        <h3>Cloud Architecture</h3>
+                        <p>Comprehensive cloud solutions tailored to your business needs</p>
+                    </div>
+                </div>
+                <div class="service-body">
+                    <div>
+                        <p>Our cloud architecture services help organizations leverage the full potential of cloud computing. We design, implement, and optimize cloud infrastructure that scales with your business while maintaining security and controlling costs.</p>
+                        <p>Whether you're migrating from on-premises infrastructure or optimizing existing cloud deployments, our experts ensure a seamless transition with minimal disruption to your operations.</p>
+                        <ul class="service-features">
+                            <li>Multi-cloud and hybrid cloud strategy development</li>
+                            <li>Infrastructure as Code using Terraform and CloudFormation</li>
+                            <li>Cost optimization through reserved instances and spot pricing</li>
+                            <li>Disaster recovery and business continuity planning</li>
+                            <li>Cloud security and compliance implementation</li>
+                        </ul>
+                    </div>
+                    <div class="service-visual">
+                        <div class="visual-title">Cloud Solutions</div>
+                        <ul class="visual-features">
+                            <li>AWS, Azure & Google Cloud</li>
+                            <li>Container Orchestration</li>
+                            <li>Serverless Architecture</li>
+                            <li>Microservices Design</li>
+                            <li>Auto-scaling Groups</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="service-detail" id="devops">
+                <div class="service-header">
+                    <div class="service-icon-large">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div>
+                        <h3>DevOps & CI/CD</h3>
+                        <p>Accelerate development cycles with automated workflows</p>
+                    </div>
+                </div>
+                <div class="service-body">
+                    <div>
+                        <p>Transform your development and operations with our comprehensive DevOps services. We implement CI/CD pipelines that automate testing, building, and deployment processes, reducing time-to-market and improving software quality.</p>
+                        <p>Our approach combines cultural transformation with technical implementation, fostering collaboration between development and operations teams while leveraging the latest tools and methodologies.</p>
+                        <ul class="service-features">
+                            <li>End-to-end CI/CD pipeline implementation</li>
+                            <li>Containerization with Docker and Kubernetes</li>
+                            <li>Infrastructure automation and configuration management</li>
+                            <li>Monitoring, logging, and alerting solutions</li>
+                            <li>DevOps maturity assessment and strategy</li>
+                        </ul>
+                    </div>
+                    <div class="service-visual">
+                        <div class="visual-title">DevOps Tools</div>
+                        <ul class="visual-features">
+                            <li>Jenkins, GitLab CI & GitHub Actions</li>
+                            <li>Docker & Kubernetes</li>
+                            <li>Terraform & Ansible</li>
+                            <li>Prometheus & Grafana</li>
+                            <li>ELK Stack</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="process">
+        <div class="container">
+            <h2 class="section-title">Our Engagement Process</h2>
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Discovery & Assessment</div>
+                    <p>We analyze your current infrastructure, challenges, and business objectives to understand your unique needs.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Solution Design</div>
+                    <p>Our architects design tailored technology solutions that align with your goals and budget constraints.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Implementation</div>
+                    <p>We deploy the solution with minimal disruption, following best practices and security standards.</p>
+                </div>
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Optimization & Support</div>
+                    <p>Continuous monitoring, optimization, and support ensure your technology delivers maximum value.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Transform Your Technology?</h2>
+            <p>Contact us for a free consultation and discover how Quantum services can drive your digital excellence.</p>
+            <a href="contact.html" class="btn btn-primary">Get Started Today</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Quantum</h3>
+                    <p>Delivering reliable, scalable technology solutions that empower organizations to achieve digital excellence.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="features.html">Features</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#cloud">Cloud Architecture</a></li>
+                        <li><a href="#devops">DevOps & CI/CD</a></li>
+                        <li><a href="#ai">AI & Analytics</a></li>
+                        <li><a href="#security">Cyber Security</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-envelope"></i> hello@quantum-tech.com</li>
+                        <li><i class="fas fa-phone"></i> +234 813 563 4873</li>
+                        <li><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Quantum. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script for smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Mobile menu toggle (basic implementation)
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const nav = document.querySelector('nav ul');
+            nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+        });
+        
+        // Animation for service cards and details
+        document.addEventListener('DOMContentLoaded', function() {
+            const serviceCards = document.querySelectorAll('.service-card');
+            const serviceDetails = document.querySelectorAll('.service-detail');
+            
+            // Function to check if element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.8 &&
+                    rect.bottom >= 0
+                );
+            }
+            
+            // Function to add animation class when in viewport
+            function checkScroll() {
+                serviceCards.forEach(card => {
+                    if (isInViewport(card)) {
+                        card.classList.add('animate');
+                    }
+                });
+                
+                serviceDetails.forEach(detail => {
+                    if (isInViewport(detail)) {
+                        detail.classList.add('animate');
+                    }
+                });
+            }
+            
+            // Initial check
+            checkScroll();
+            
+            // Check on scroll
+            window.addEventListener('scroll', checkScroll);
+        });
+    </script>
+</body>
+</html>
